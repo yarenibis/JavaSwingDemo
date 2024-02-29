@@ -16,10 +16,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
+
 import java.awt.BorderLayout;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import javax.swing.JScrollPane;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class liste extends JFrame {
 
@@ -28,6 +33,7 @@ public class liste extends JFrame {
 	private JTable table;
 	private JTextField textField_1;
 	private DefaultTableModel model;
+	private JTextField search;
 
 	/**
 	 * Launch the application.
@@ -78,6 +84,20 @@ public class liste extends JFrame {
 			e.printStackTrace();
 		}
 		scrollPane.setViewportView(table);
+		
+		search = new JTextField();
+		search.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				String searchkey=search.getText();
+				TableRowSorter <DefaultTableModel> trs=new TableRowSorter <DefaultTableModel>(model);
+				table.setRowSorter(trs);
+				trs.setRowFilter(RowFilter.regexFilter(searchkey));
+			}
+		});
+		search.setBounds(388, 34, 138, 20);
+		panel.add(search);
+		search.setColumns(10);
 		
 		
 	}
